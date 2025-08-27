@@ -14,18 +14,15 @@ git init --bare $HOME/.cfg
 ```sh 
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME
 ```
-```
-```
 
 and source
+```sh source $HOME/.zshrc``` again depending on your shell.
 
 ### Disable showUntrackedFiles
 ```bash
 config config --local status.showUntrackedFiles no
 ```
 this will ignore all the files here so that we can focus on whats really important
-```
-```
 
 
 ### Commands for pushing
@@ -37,8 +34,6 @@ config add .bashrc
 config commit -m "Add bashrc"
 config push
 ```
-```
-```
 
 #### References
-- [Atlassian git tutorials]('https://www.atlassian.com/git/tutorials/dotfiles')
+- [Atlassian git tutorials](https://www.atlassian.com/git/tutorials/dotfiles)
