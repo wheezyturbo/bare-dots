@@ -26,3 +26,7 @@ require("gruvbox").setup({
   transparent_mode = false,
 })
 vim.cmd("colorscheme gruvbox")
+
+vim.keymap.set("n", "<leader><space>", function()
+  require("snacks").picker.files({ hidden = true })
+end, { desc = "Find Files (show hidden)" })
