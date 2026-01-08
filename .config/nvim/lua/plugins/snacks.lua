@@ -8,6 +8,7 @@ return {
           explorer = { hidden = true },
         },
       },
+      -- dashboard = { enabled = false },
     },
   },
 }
