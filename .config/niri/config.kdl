@@ -1,5 +1,8 @@
 prefer-no-csd
-// // This config is in the KDL format: https://kdl.dev
+spawn-at-startup "swww-daemon"
+spawn-sh-at-startup "swww img $HOME/Pictures/fc_3.jpg"
+
+            // // This config is in the KDL format: https://kdl.dev
 // // "/-" comments out the following node.
 // // Check the wiki for a full description of the configuration:
 // // https://github.com/YaLTeR/niri/wiki/Configuration:-Introduction
@@ -746,8 +749,9 @@ layout {
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
 // spawn-at-startup "waybar"
-spawn-at-startup "~/.config/niri/waybar/waybar-niri.sh"
+// spawn-at-startup "~/.config/niri/waybar/waybar-niri.sh"
 // spawn-at-startup "xdg-desktop-portal-gtk"
+spawn-at-startup "quickshell"
 spawn-at-startup "xdg-desktop-portal-wlr"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
