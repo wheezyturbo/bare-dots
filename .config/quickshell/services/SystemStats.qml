@@ -18,6 +18,12 @@ Singleton {
         property real downloadSpeed: 0  // bytes per second
         property real uploadSpeed: 0    // bytes per second
         property real temp: 0
+        
+        // GPU properties
+        property real gpuUsage: 0        // GPU utilization percentage
+        property real gpuTemp: 0         // GPU temperature
+        property string gpuType: "intel" // "intel" or "nvidia"
+        property bool gpuAvailable: false
 
         onTriggered: root.updateStats()
     }
@@ -27,6 +33,12 @@ Singleton {
     readonly property real downloadSpeed: statsTimer.downloadSpeed
     readonly property real uploadSpeed: statsTimer.uploadSpeed
     readonly property real temp: statsTimer.temp
+    
+    // GPU readonly properties
+    readonly property real gpuUsage: statsTimer.gpuUsage
+    readonly property real gpuTemp: statsTimer.gpuTemp
+    readonly property string gpuType: statsTimer.gpuType
+    readonly property bool gpuAvailable: statsTimer.gpuAvailable
 
     property double _previousIdle: 0
     property double _previousTotal: 0
@@ -59,6 +71,34 @@ Singleton {
       id: tempFile
       path: "/sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input"
     }
+    
+    // Intel GPU frequency files
+    FileView {
+        id: intelGpuCurFreq
+        path: "/sys/class/drm/card1/gt_cur_freq_mhz"
+        blockLoading: true
+    }
+    
+    FileView {
+        id: intelGpuMaxFreq
+        path: "/sys/class/drm/card1/gt_max_freq_mhz"
+        blockLoading: true
+    }
+    
+    // NVIDIA GPU monitoring via Process
+    property string _nvidiaOutput: ""
+    
+    Process {
+        id: nvidiaProcess
+        command: ["nvidia-smi", "--query-gpu=utilization.gpu,temperature.gpu", "--format=csv,noheader,nounits"]
+        onExited: function(exitCode, exitStatus) {
+            if (exitCode === 0) {
+                root._nvidiaOutput = stdout;
+            } else {
+                root._nvidiaOutput = "";
+            }
+        }
+    }
 
     Component.onCompleted: updateStats()
 
@@ -67,6 +107,7 @@ Singleton {
         updateMemoryStats();
         updateNetworkStats();
         updateTempStats();
+        updateGpuStats();
     }
 
 
@@ -82,6 +123,52 @@ Singleton {
       statsTimer.temp = temp/1000
 
 
+    }
+
+    function updateGpuStats() {
+        // First try NVIDIA GPU (if discrete GPU is active)
+        nvidiaProcess.running = true;
+        
+        // Check NVIDIA result from previous cycle
+        if (root._nvidiaOutput && root._nvidiaOutput.length > 0) {
+            var parts = root._nvidiaOutput.trim().split(",");
+            if (parts.length >= 2) {
+                var usage = Number(parts[0].trim());
+                var temp = Number(parts[1].trim());
+                
+                if (isFinite(usage) && isFinite(temp)) {
+                    statsTimer.gpuUsage = clampPercentage(usage);
+                    statsTimer.gpuTemp = temp;
+                    statsTimer.gpuType = "nvidia";
+                    statsTimer.gpuAvailable = true;
+                    return;
+                }
+            }
+        }
+        
+        // Fallback to Intel GPU frequency-based usage estimation
+        var curFreqText = readFile(intelGpuCurFreq);
+        var maxFreqText = readFile(intelGpuMaxFreq);
+        
+        if (curFreqText && maxFreqText) {
+            var curFreq = Number(curFreqText.trim());
+            var maxFreq = Number(maxFreqText.trim());
+            
+            if (isFinite(curFreq) && isFinite(maxFreq) && maxFreq > 0) {
+                // Calculate usage as percentage of max frequency
+                var usage = (curFreq / maxFreq) * 100;
+                statsTimer.gpuUsage = clampPercentage(usage);
+                statsTimer.gpuTemp = 0; // Intel GPU temp not easily accessible
+                statsTimer.gpuType = "intel";
+                statsTimer.gpuAvailable = true;
+                return;
+            }
+        }
+        
+        // No GPU stats available
+        statsTimer.gpuAvailable = false;
+        statsTimer.gpuUsage = 0;
+        statsTimer.gpuTemp = 0;
     }
 
     function updateCpuStats() {
