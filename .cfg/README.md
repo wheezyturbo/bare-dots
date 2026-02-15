@@ -1,39 +1,116 @@
-# DOTFILES
+# Dotfiles (Bare Git Repo)
 
-- This leverages the git bare repository.
+This repository manages my dotfiles using a **bare git repository** technique. No symlinks are required — the working tree is simply `$HOME`.
 
-### Initialize a bare repository using 
-```sh
-git init --bare $HOME/.cfg 
+## 📂 Structure
+
+- **`.cfg/`**: The bare git directory (where `.git` normally lives).
+- **`.config/`**: Most config files reside here, directly tracked.
+- **`README.md`**: Provides documentation (this file).
+
+Key components:
+- **WM**: [DWM](https://dwm.suckless.org/) (custom build in `.config/dwm`)
+- **Term**: [st](https://st.suckless.org/) (custom build in `.config/st`)
+- **Bar**: [dwmblocks](https://github.com/torrinfail/dwmblocks) (custom build in `.config/dwmblocks`)
+- **Compositor**: [picom](https://github.com/yshui/picom) (`.config/picom/picom.conf`)
+- **Notification**: [dunst](https://dunst-project.org/) (`.config/dunst/dunstrc`)
+- **Launcher**: [rofi](https://github.com/davatorium/rofi) (`.config/rofi/`)
+
+---
+
+## 🚀 Installation on a New Machine
+
+### 1. Prerequisites
+
+Install required packages (Arch Linux example):
+
+```bash
+# Core tools
+sudo pacman -S git base-devel
+
+# DWM dependencies
+sudo pacman -S libx11 libxinerama libxft freetype2 \
+               networkmanager brightnessctl playerctl flameshot \
+               pavucontrol ttf-jetbrains-mono-nerd dunst rofi picom
 ```
 
-- This will create a `.cfg` directory in the home folder.
+### 2. Clone the Repository
 
-### Add this to either your `.zshrc` or `.bashrc` depending on whats used
+We clone the bare repository into `~/.cfg`:
 
-```sh 
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME
+```bash
+git clone --bare <your-repo-url> $HOME/.cfg
 ```
 
-and source
-```sh source $HOME/.zshrc``` again depending on your shell.
+### 3. Define Alias
 
-### Disable showUntrackedFiles
+Temporarily define the `config` alias for the current shell session:
+
+```bash
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+```
+
+### 4. Checkout
+
+Checkout the content into your home directory:
+
+```bash
+config checkout
+```
+
+> **Note**: If you get an error about existing files being overwritten (e.g. `.bashrc` or `.config/`), back them up or delete them:
+> ```bash
+> mkdir -p .config-backup && \
+> config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
+> xargs -I{} mv {} .config-backup/{}
+> ```
+> Then run `config checkout` again.
+
+### 5. Configure Git Locally
+
+Hide untracked files to keep `status` clean:
+
 ```bash
 config config --local status.showUntrackedFiles no
 ```
-this will ignore all the files here so that we can focus on whats really important
 
+---
 
-### Commands for pushing
+## 🛠️ Post-Installation Build
+
+Since DWM, st, and dwmblocks are compiled from source, you must build them:
+
+```bash
+# Build DWM
+cd ~/.config/dwm
+sudo make clean install
+
+# Build st
+cd ~/.config/st
+sudo make clean install
+
+# Build dwmblocks
+cd ~/.config/dwmblocks
+sudo make clean install
+```
+
+---
+
+## ⌨️ Usage
+
+### DWM Keybindings
+- **Super + Return**: Terminal (st)
+- **Super + a**: Launcher (rofi)
+- **Super + Shift + Q**: Reload DWM
+- **Super + ?**: Show keybindings cheatsheet
+- **Super + x**: Control Center
+
+### Git Operations
+Manage dotfiles using the `config` alias:
+
 ```bash
 config status
 config add .vimrc
-config commit -m "Add vimrc"
-config add .bashrc
-config commit -m "Add bashrc"
+config commit -m "Update vimrc"
 config push
 ```
-
-#### References
-- [Atlassian git tutorials](https://www.atlassian.com/git/tutorials/dotfiles)
