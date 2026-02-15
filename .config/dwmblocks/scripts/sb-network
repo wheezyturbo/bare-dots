@@ -1,0 +1,32 @@
+#!/bin/sh
+# sb-network — WiFi SSID + signal / Ethernet / disconnected
+
+# Check ethernet first (priority)
+eth_dev=$(nmcli -t -f TYPE,STATE,DEVICE dev 2>/dev/null | grep '^ethernet:connected' | head -1 | cut -d: -f3)
+
+if [ -n "$eth_dev" ]; then
+    printf "󰈀 %s" "$eth_dev"
+    exit 0
+fi
+
+# Check WiFi
+wifi_info=$(nmcli -t -f active,ssid,signal dev wifi 2>/dev/null | grep '^yes:')
+if [ -n "$wifi_info" ]; then
+    ssid=$(echo "$wifi_info" | cut -d: -f2)
+    signal=$(echo "$wifi_info" | cut -d: -f3)
+
+    if [ "$signal" -ge 80 ] 2>/dev/null; then
+        icon="󰤥"
+    elif [ "$signal" -ge 60 ] 2>/dev/null; then
+        icon="󰤢"
+    elif [ "$signal" -ge 40 ] 2>/dev/null; then
+        icon="󰤟"
+    else
+        icon="󰤯"
+    fi
+
+    printf "%s %s" "$icon" "$ssid"
+    exit 0
+fi
+
+printf "󰤭 Off"

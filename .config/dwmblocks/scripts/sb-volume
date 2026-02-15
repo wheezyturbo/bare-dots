@@ -1,0 +1,23 @@
+#!/bin/sh
+# sb-volume — volume percentage with mute detection
+
+mute=$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null | awk '{print $2}')
+
+if [ "$mute" = "yes" ]; then
+    printf "󰝟 Mute"
+    exit 0
+fi
+
+vol=$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | grep -oP '\d+%' | head -1 | tr -d '%')
+
+[ -z "$vol" ] && exit 0
+
+if [ "$vol" -ge 70 ]; then
+    icon="󰕾"
+elif [ "$vol" -ge 30 ]; then
+    icon="󰖀"
+else
+    icon="󰕿"
+fi
+
+printf "%s %s%%" "$icon" "$vol"

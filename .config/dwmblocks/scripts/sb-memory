@@ -1,0 +1,4 @@
+#!/bin/sh
+# sb-memory — RAM usage in GiB
+
+free -h | awk '/^Mem:/ { printf "󰍛 %s/%s", $3, $2 }'

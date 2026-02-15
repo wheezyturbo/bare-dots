@@ -1,0 +1,7 @@
+#!/bin/sh
+ssid=$(iw dev wlp3s0 link 2>/dev/null | awk -F': ' '/SSID/ {print $2}')
+if [ -z "$ssid" ]; then
+  echo "Disconnected"
+else
+  echo "$ssid"
+fi

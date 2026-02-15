@@ -1,0 +1,56 @@
+#!/bin/sh
+# sb-battery — battery with contextual icons
+
+# Dynamically find battery
+for battery in /sys/class/power_supply/BAT* /sys/class/power_supply/CMB* /sys/class/power_supply/CWB*; do
+    if [ -d "$battery" ]; then
+        BATTERY_PATH="$battery"
+        break
+    fi
+done
+
+[ -z "$BATTERY_PATH" ] && exit 0
+
+cap=$(cat "$BATTERY_PATH/capacity" 2>/dev/null)
+status=$(cat "$BATTERY_PATH/status" 2>/dev/null)
+
+[ -z "$cap" ] && exit 0
+
+# Charging
+if [ "$status" = "Charging" ]; then
+    printf "󰂄 %s%%" "$cap"
+    exit 0
+fi
+
+# Full
+if [ "$status" = "Full" ]; then
+    printf "󰁹 Full"
+    exit 0
+fi
+
+# Discharging — contextual icon
+if [ "$cap" -ge 95 ]; then
+    icon="󰁹"
+elif [ "$cap" -ge 85 ]; then
+    icon="󰂂"
+elif [ "$cap" -ge 75 ]; then
+    icon="󰂁"
+elif [ "$cap" -ge 65 ]; then
+    icon="󰂀"
+elif [ "$cap" -ge 55 ]; then
+    icon="󰁿"
+elif [ "$cap" -ge 45 ]; then
+    icon="󰁾"
+elif [ "$cap" -ge 35 ]; then
+    icon="󰁽"
+elif [ "$cap" -ge 25 ]; then
+    icon="󰁼"
+elif [ "$cap" -ge 15 ]; then
+    icon="󰁻"
+elif [ "$cap" -ge 5 ]; then
+    icon="󰁺"
+else
+    icon="󰂎"
+fi
+
+printf "%s %s%%" "$icon" "$cap"

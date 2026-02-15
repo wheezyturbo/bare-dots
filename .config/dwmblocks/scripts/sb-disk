@@ -1,0 +1,4 @@
+#!/bin/sh
+# sb-disk — Root partition usage
+
+df -h / | awk 'NR==2 { printf "󰋊 %s", $5 }'

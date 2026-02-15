@@ -1,0 +1,9 @@
+#!/bin/sh
+cur=$(cat /sys/class/backlight/*/brightness 2>/dev/null)
+max=$(cat /sys/class/backlight/*/max_brightness 2>/dev/null)
+if [ -z "$cur" ] || [ -z "$max" ]; then
+  echo "N/A"
+else
+  perc=$(awk "BEGIN {printf \"%d%%\", ($cur/$max)*100}")
+  echo "$perc"
+fi

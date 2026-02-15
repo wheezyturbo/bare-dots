@@ -1,0 +1,51 @@
+#!/bin/sh
+# sb-netspeed — download/upload speed
+# Uses /sys/class/net/*/statistics for accurate measurement
+
+CACHE=/tmp/sb-netspeed
+
+# Find active interface
+iface=$(ip route get 1.1.1.1 2>/dev/null | awk '{print $5; exit}')
+[ -z "$iface" ] && exit 0
+
+rx_now=$(cat /sys/class/net/"$iface"/statistics/rx_bytes 2>/dev/null)
+tx_now=$(cat /sys/class/net/"$iface"/statistics/tx_bytes 2>/dev/null)
+time_now=$(date +%s)
+
+[ -z "$rx_now" ] && exit 0
+
+# Read previous values
+if [ -f "$CACHE" ]; then
+    read -r rx_prev tx_prev time_prev < "$CACHE"
+else
+    echo "$rx_now $tx_now $time_now" > "$CACHE"
+    printf "󰁝 0B 󰁅 0B"
+    exit 0
+fi
+
+# Save current
+echo "$rx_now $tx_now $time_now" > "$CACHE"
+
+# Calculate delta
+dt=$((time_now - time_prev))
+[ "$dt" -le 0 ] && dt=1
+
+rx_delta=$(( (rx_now - rx_prev) / dt ))
+tx_delta=$(( (tx_now - tx_prev) / dt ))
+
+# Human-readable format
+human() {
+    val=$1
+    if [ "$val" -ge 1048576 ]; then
+        printf "%.1fM" "$(echo "$val" | awk '{printf "%.1f", $1/1048576}')"
+    elif [ "$val" -ge 1024 ]; then
+        printf "%.0fK" "$(echo "$val" | awk '{printf "%.0f", $1/1024}')"
+    else
+        printf "%dB" "$val"
+    fi
+}
+
+dl=$(human "$rx_delta")
+ul=$(human "$tx_delta")
+
+printf "󰁝 %s 󰁅 %s" "$dl" "$ul"

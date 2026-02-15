@@ -1,0 +1,16 @@
+#!/bin/sh
+# sb-brightness — screen brightness percentage
+
+perc=$(brightnessctl -m 2>/dev/null | cut -d, -f4 | tr -d '%')
+
+[ -z "$perc" ] && exit 0
+
+if [ "$perc" -ge 70 ]; then
+    icon="󰃠"
+elif [ "$perc" -ge 30 ]; then
+    icon="󰃟"
+else
+    icon="󰃞"
+fi
+
+printf "%s %s%%" "$icon" "$perc"

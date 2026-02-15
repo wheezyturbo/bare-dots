@@ -1,0 +1,4 @@
+#!/bin/sh
+# sb-datetime — clean date and time
+
+printf "󰃭 %s  󰥔 %s" "$(date '+%b %d')" "$(date '+%I:%M %p')"
