@@ -5,6 +5,7 @@ static const Block blocks[] = {
 	{"",		"$HOME/.config/dwmblocks/scripts/sb-memory",		10,		0},
 	{"",		"$HOME/.config/dwmblocks/scripts/sb-disk",		300,		0},
 	{"",		"$HOME/.config/dwmblocks/scripts/sb-network",		5,		4},
+	{"",		"$HOME/.config/dwmblocks/scripts/sb-netspeed",		2,		0},
 	{"",		"$HOME/.config/dwmblocks/scripts/sb-bluetooth",		0,		5},
 	{"",		"$HOME/.config/dwmblocks/scripts/sb-brightness",	0,		2},
 	{"",		"$HOME/.config/dwmblocks/scripts/sb-volume",		0,		1},

@@ -1,0 +1,87 @@
+/* Kanagawa theme for Rofi */
+
+* {
+    bg:          #1F1F28;
+    bg-alt:      #16161D;
+    fg:          #DCD7BA;
+    fg-alt:      #727169;
+    accent:      #7E9CD8;
+    urgent:      #C34043;
+    selected:    #223249;
+
+    background-color: @bg;
+    text-color:       @fg;
+    border-color:     @accent;
+}
+
+window {
+    width:            500px;
+    border:           2px;
+    border-color:     @accent;
+    border-radius:    8px;
+    padding:          0;
+    background-color: @bg;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing:  0;
+    padding:  0;
+}
+
+inputbar {
+    children:         [ prompt, entry ];
+    padding:          14px 16px;
+    background-color: @bg-alt;
+    border:           0 0 2px 0;
+    border-color:     @accent;
+}
+
+prompt {
+    text-color:       @accent;
+    padding:          0 8px 0 0;
+    background-color: transparent;
+}
+
+entry {
+    text-color:       @fg;
+    placeholder:      "Search...";
+    placeholder-color: @fg-alt;
+    background-color: transparent;
+}
+
+listview {
+    lines:            8;
+    columns:          1;
+    fixed-height:     false;
+    padding:          8px 0;
+    spacing:          0;
+    scrollbar:        false;
+    background-color: @bg;
+}
+
+element {
+    padding:          10px 16px;
+    spacing:          12px;
+    background-color: transparent;
+}
+
+element selected {
+    background-color: @selected;
+    border-radius:    4px;
+}
+
+element-icon {
+    size:             24px;
+    background-color: transparent;
+}
+
+element-text {
+    text-color:       @fg;
+    background-color: transparent;
+    vertical-align:   0.5;
+}
+
+element-text selected {
+    text-color:       @accent;
+}
