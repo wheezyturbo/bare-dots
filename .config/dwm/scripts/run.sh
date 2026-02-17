@@ -6,6 +6,8 @@ export XDG_SESSION_DESKTOP=dwm
 export XDG_SESSION_TYPE=x11
 export GTK_USE_PORTAL=1
 
+xss-lock --transfer-sleep-lock -- slock &
+
 # Update DBus with session vars so portals know where we are
 dbus-update-activation-environment --all
 
