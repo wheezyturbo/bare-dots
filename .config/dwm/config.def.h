@@ -66,14 +66,14 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_fg, "-sb", col_sel, "-sf", col_bg, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-i", "-c", "-l", "10", "-h", "40", "-bw", "2", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_fg, "-sb", "#2A2A37", "-sf", "#7E9CD8", "-nhf", "#FF9E3B", "-nhb", col_bg, "-shf", "#FF9E3B", "-shb", "#2A2A37", NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *rofi[]     = { "rofi", "-show", "drun", NULL };
+static const char *dmenulauncher[] = { "/home/rubyciide/.config/dmenu/scripts/dmenu-launcher.sh", NULL };
 static const char *flameshot[] = { "flameshot", "gui", NULL };
-static const char *netmgr[]  = { "st", "-e", "nmtui", NULL };
+static const char *dmenuwifi[]  = { "/home/rubyciide/.config/dmenu/scripts/dmenu-wifi.sh", NULL };
 static const char *volmgr[]  = { "pavucontrol", NULL };
 static const char *keybinds[] = { "/home/rubyciide/.config/dwm/scripts/keybinds.sh", NULL };
-static const char *ctrlcenter[] = { "/home/rubyciide/.config/dwm/scripts/control-center.sh", NULL };
+static const char *dmenupower[] = { "/home/rubyciide/.config/dmenu/scripts/dmenu-power.sh", NULL };
 static const char *filemgr[]  = { "kitty", "-e", "yazi", NULL };
 static const char *browser[]  = { "chromium", NULL };
 
@@ -83,13 +83,13 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 
 	/* ── Launchers ── */
-	{ MODKEY,                       XK_a,      spawn,          {.v = rofi } },
-	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_n,      spawn,          {.v = netmgr } },
+	{ MODKEY,                       XK_a,      spawn,          {.v = dmenucmd } },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = dmenulauncher } },
+	{ MODKEY,                       XK_n,      spawn,          {.v = dmenuwifi } },
 	{ MODKEY,                       XK_v,      spawn,          {.v = volmgr } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_slash,  spawn,          {.v = keybinds } },
-	{ MODKEY,                       XK_x,      spawn,          {.v = ctrlcenter } },
+	{ MODKEY,                       XK_BackSpace, spawn,       {.v = dmenupower } },
 
 	/* ── Apps ── */
 	{ MODKEY,                       XK_e,      spawn,          {.v = filemgr } },
