@@ -68,25 +68,32 @@ return {
           local opts = { buffer = ev.buf, silent = true }
           local fzf = require("fzf-lua")
 
-          -- Navigation (Now using FzfLua)
-          vim.keymap.set("n", "gd", fzf.lsp_definitions, vim.tbl_extend("force", opts, { desc = "Fzf Goto definition" }))
-          vim.keymap.set("n", "gr", fzf.lsp_references, vim.tbl_extend("force", opts, { desc = "Fzf Show references" }))
-          vim.keymap.set("n", "gi", fzf.lsp_implementations, vim.tbl_extend("force", opts, { desc = "Fzf Goto implementation" }))
-          vim.keymap.set("n", "gt", fzf.lsp_typedefs, vim.tbl_extend("force", opts, { desc = "Fzf Goto type definition" }))
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
+          -- Navigation via FzfLua
+          vim.keymap.set("n", "gd",  fzf.lsp_definitions,    vim.tbl_extend("force", opts, { desc = "Fzf Goto definition" }))
+          vim.keymap.set("n", "gD",  vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
+          vim.keymap.set("n", "gy",  fzf.lsp_typedefs,        vim.tbl_extend("force", opts, { desc = "Fzf Goto type definition" }))
+          vim.keymap.set("n", "gi",  fzf.lsp_implementations, vim.tbl_extend("force", opts, { desc = "Fzf Goto implementation" }))
+          vim.keymap.set("n", "gr",  fzf.lsp_references,      vim.tbl_extend("force", opts, { desc = "Fzf Show references" }))
+
+          -- Override Neovim 0.11+ built-in gr* defaults (they use quickfix, not fzf).
+          -- Without these, gri / grr / grn / gra would bypass fzf entirely.
+          vim.keymap.set("n", "gri", fzf.lsp_implementations, vim.tbl_extend("force", opts, { desc = "Fzf Goto implementation" }))
+          vim.keymap.set("n", "grr", fzf.lsp_references,      vim.tbl_extend("force", opts, { desc = "Fzf Show references" }))
+          vim.keymap.set("n", "grn", vim.lsp.buf.rename,       vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+          vim.keymap.set({ "n", "v" }, "gra", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
 
           -- Documentation
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
-          vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, vim.tbl_extend("force", opts, { desc = "Signature help" }))
+          vim.keymap.set("n", "K",    vim.lsp.buf.hover,           vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
+          vim.keymap.set("n", "gK",   vim.lsp.buf.signature_help,  vim.tbl_extend("force", opts, { desc = "Signature help" }))
           vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, vim.tbl_extend("force", opts, { desc = "Signature help" }))
 
-          -- Actions (FzfLua provides a better UI for code actions via register_ui_select)
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+          -- Keep <leader> aliases for discoverability via which-key
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,       vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
           vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
 
           -- Symbols & Diagnostics via Fzf
           vim.keymap.set("n", "<leader>ss", fzf.lsp_document_symbols, vim.tbl_extend("force", opts, { desc = "Document Symbols" }))
-          vim.keymap.set("n", "<leader>sd", fzf.diagnostics_document, vim.tbl_extend("force", opts, { desc = "Line diagnostics" }))
+          vim.keymap.set("n", "<leader>sd", fzf.diagnostics_document,  vim.tbl_extend("force", opts, { desc = "Line diagnostics" }))
         end,
       })
 

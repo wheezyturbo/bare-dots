@@ -1,7 +1,8 @@
--- Bootstrap lazy.nvim and load configuration
+-- map leader keys
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
--- Load core configuration
+
+-- load the config
 require("config.lazy")
 require("config.options")
 require("config.keymaps")
