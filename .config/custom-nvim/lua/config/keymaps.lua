@@ -21,9 +21,39 @@ vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" 
 vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
 
 -- ─── Window / Buffer Management ──────────────────────────────────────────
-vim.keymap.set("n", "<leader>wd", "<C-w>q",          { noremap = true, silent = true, desc = "Close Window" })
 vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
 vim.keymap.set("n", "<leader>qq", "<cmd>qa<cr>",      { desc = "Quit All" })
+
+-- ─── Windows (<leader>w) ────────────────────────────────────────────────
+-- Replicate bindings from screenshot and LazyVim
+local function wm(lhs, rhs, desc)
+  vim.keymap.set("n", "<leader>w" .. lhs, rhs, { desc = desc })
+end
+
+wm("w", "<C-W>p", "Other Window")
+wm("d", "<C-W>c", "Delete Window")
+wm("h", "<C-W>h", "Go to the left window")
+wm("H", "<C-W>H", "Move window to far left")
+wm("j", "<C-W>j", "Go to the down window")
+wm("J", "<C-W>J", "Move window to far bottom")
+wm("k", "<C-W>k", "Go to the up window")
+wm("K", "<C-W>K", "Move window to far top")
+wm("l", "<C-W>l", "Go to the right window")
+wm("L", "<C-W>L", "Move window to far right")
+wm("m", function() pcall(require("snacks").zen.zoom) end, "Enable Zoom Mode")
+wm("o", "<C-W>o", "Close all other windows")
+wm("q", "<C-W>q", "Quit a window")
+wm("s", "<C-W>s", "Split window")
+wm("T", "<C-W>T", "Break out into a new tab")
+wm("v", "<C-W>v", "Split window vertically")
+wm("x", "<C-W>x", "Swap current with next")
+wm("+", "<cmd>resize +2<cr>", "Increase height")
+wm("-", "<cmd>resize -2<cr>", "Decrease height")
+wm("<", "<cmd>vertical resize -2<cr>", "Decrease width")
+wm("=", "<C-W>=", "Equally high and wide")
+wm(">", "<cmd>vertical resize +2<cr>", "Increase width")
+wm("_", "<C-W>_", "Max out height")
+wm("|", "<C-W>|", "Max out width")
 
 -- ─── Buffer Tabs (BufferLine) ─────────────────────────────────────────────
 vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Buffer" })

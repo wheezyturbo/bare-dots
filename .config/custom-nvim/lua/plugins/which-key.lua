@@ -8,6 +8,7 @@ return {
     preset = "helix",
 	},
 	keys = {
+		{ "<leader>w", group = "windows", icon = " " },
 		{
 			"<leader>?",
 			function()
