@@ -16,36 +16,36 @@ time_now=$(date +%s)
 
 # Read previous values
 if [ -f "$CACHE" ]; then
-    read -r rx_prev tx_prev time_prev < "$CACHE"
+  read -r rx_prev tx_prev time_prev <"$CACHE"
 else
-    echo "$rx_now $tx_now $time_now" > "$CACHE"
-    printf "󰁝 0B 󰁅 0B"
-    exit 0
+  echo "$rx_now $tx_now $time_now" >"$CACHE"
+  printf "󰁅 0B 󰁝 0B"
+  exit 0
 fi
 
 # Save current
-echo "$rx_now $tx_now $time_now" > "$CACHE"
+echo "$rx_now $tx_now $time_now" >"$CACHE"
 
 # Calculate delta
 dt=$((time_now - time_prev))
 [ "$dt" -le 0 ] && dt=1
 
-rx_delta=$(( (rx_now - rx_prev) / dt ))
-tx_delta=$(( (tx_now - tx_prev) / dt ))
+rx_delta=$(((rx_now - rx_prev) / dt))
+tx_delta=$(((tx_now - tx_prev) / dt))
 
 # Human-readable format
 human() {
-    val=$1
-    if [ "$val" -ge 1048576 ]; then
-        printf "%.1fM" "$(echo "$val" | awk '{printf "%.1f", $1/1048576}')"
-    elif [ "$val" -ge 1024 ]; then
-        printf "%.0fK" "$(echo "$val" | awk '{printf "%.0f", $1/1024}')"
-    else
-        printf "%dB" "$val"
-    fi
+  val=$1
+  if [ "$val" -ge 1048576 ]; then
+    printf "%.1fM" "$(echo "$val" | awk '{printf "%.1f", $1/1048576}')"
+  elif [ "$val" -ge 1024 ]; then
+    printf "%.0fK" "$(echo "$val" | awk '{printf "%.0f", $1/1024}')"
+  else
+    printf "%dB" "$val"
+  fi
 }
 
 dl=$(human "$rx_delta")
 ul=$(human "$tx_delta")
 
-printf "󰁝 %s 󰁅 %s" "$dl" "$ul"
+printf "󰁅 %s  󰁝%s" "$dl" "$ul"
