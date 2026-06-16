@@ -6,6 +6,7 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "JetBrainsMono Nerd Font Mono:size=14:antialias=true:autohint=true";
+// static char *font = "Google Sans Code:style=Regular:size=14:antialias=true:autohint=true";
 static int borderpx = 12;
 
 /*
