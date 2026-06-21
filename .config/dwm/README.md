@@ -4,36 +4,59 @@ My personal DWM (Dynamic Window Manager) 6.8 build with a **Kanagawa** color sch
 
 ---
 
-## Required Packages
+## Required Packages & Bootstrap Script
 
-Install these before building:
+You can scan, install all dependencies, and compile your suckless builds in one go using the interactive **bootstrap script** included in this build:
+
+```bash
+# Run the interactive bootstrap helper
+~/.config/dwm/scripts/bootstrap.sh
+```
+
+Alternatively, you can install the packages manually:
 
 ```bash
 # Arch / Manjaro
-sudo pacman -S base-devel libx11 libxinerama libxft freetype2 \
-               networkmanager brightnessctl playerctl flameshot \
-               pavucontrol ttf-jetbrains-mono-nerd dunst rofi picom
+sudo pacman -S --needed \
+    base-devel xorg-server xorg-xinit \
+    libx11 libxinerama libxft libxext libxrandr freetype2 pkgconf \
+    zsh eza kitty yazi chromium flameshot \
+    picom dunst libnotify rofi feh xss-lock \
+    networkmanager network-manager-applet bluez bluez-utils \
+    brightnessctl playerctl pavucontrol pipewire-pulse \
+    ttf-jetbrains-mono-nerd
 
 # Debian / Ubuntu
-sudo apt install build-essential libx11-dev libxinerama-dev libxft-dev libfreetype-dev \
-                 network-manager brightnessctl playerctl flameshot \
-                 pavucontrol fonts-jetbrains-mono dunst rofi picom
+sudo apt install --no-install-recommends \
+    build-essential xorg xinit \
+    libx11-dev libxinerama-dev libxft-dev libxext-dev libxrandr-dev libfreetype6-dev pkg-config \
+    zsh kitty flameshot \
+    picom dunst libnotify-bin rofi feh xss-lock \
+    network-manager network-manager-gnome bluez bluez-tools \
+    brightnessctl playerctl pavucontrol pulseaudio-utils \
+    fonts-jetbrains-mono
 ```
 
 | Package | Purpose |
 |---|---|
-| `libx11`, `libxinerama`, `libxft` | Core X11 libs required to compile DWM |
+| `libx11`, `libxinerama`, `libxft`, `libxext`, `libxrandr` | Core X11 libs required to compile DWM, st, and slock |
+| `xorg-server` + `xorg-xinit` | X11 display server and session startup (`startx`) |
 | `ttf-jetbrains-mono-nerd` | Nerd Font — renders icons in the status bar |
 | `brightnessctl` | Screen brightness control |
 | `playerctl` | MPRIS media player control (play/pause/skip) |
 | `flameshot` | Screenshot tool |
 | `pavucontrol` | PulseAudio/PipeWire GUI volume mixer |
-| `NetworkManager` + `nmtui` | Network management (CLI/TUI) |
-| `pactl` | Volume control (comes with PulseAudio/PipeWire) |
-| `bluetoothctl` | Bluetooth status (comes with BlueZ) |
-| `dunst` | Notification daemon |
-| `rofi` | App launcher (replaces dmenu) |
+| `pactl` / `pipewire-pulse` | Volume control backend |
+| `NetworkManager` + `network-manager-applet` | Network daemon and system tray applet (`nm-applet`) |
+| `bluez` + `bluez-utils` | Bluetooth daemon and CLI (`bluetoothctl`) |
+| `dunst` + `libnotify` | Notification daemon and notifications helper (`notify-send`) |
+| `rofi` | App launcher and menus (Control Center / Keybindings) |
 | `picom` | Compositor (shadows, animations, blur, transparency) |
+| `feh` | Wallpaper setter |
+| `xss-lock` | Locks screen on sleep/suspend via `slock` |
+| `kitty` + `yazi` | Terminal emulator and console file manager |
+| `chromium` | Web browser |
+| `eza` | Modern `ls` replacement for terminal aliases |
 
 ---
 
