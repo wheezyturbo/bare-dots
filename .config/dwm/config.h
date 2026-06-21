@@ -76,6 +76,7 @@ static const char *keybinds[] = { "/home/rubyciide/.config/dwm/scripts/keybinds.
 static const char *dmenupower[] = { "/home/rubyciide/.config/dmenu/scripts/dmenu-power.sh", NULL };
 static const char *filemgr[]  = { "kitty", "-e", "yazi", NULL };
 static const char *browser[]  = { "chromium", NULL };
+static const char *ctrlcenter[] = { "/home/rubyciide/.config/dwm/scripts/control-center.sh", NULL };
 
 #include <X11/XF86keysym.h>
 
@@ -90,6 +91,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_slash,  spawn,          {.v = keybinds } },
 	{ MODKEY,                       XK_BackSpace, spawn,       {.v = dmenupower } },
+	{ MODKEY,                       XK_x,      spawn,          {.v = ctrlcenter } },
 
 	/* ── Apps ── */
 	{ MODKEY,                       XK_e,      spawn,          {.v = filemgr } },
