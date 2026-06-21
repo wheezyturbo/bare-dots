@@ -1,5 +1,6 @@
 #!/bin/sh
-# Control Center for DWM — rofi-based quick settings
+# Control Center for DWM — dmenu-based quick settings
+. "/home/rubyciide/.config/dmenu/scripts/dmenu-common.sh"
 
 # ── Gather system info ──
 
@@ -91,8 +92,7 @@ chosen=$(printf "%b\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s" \
     "─────────────────────────────" \
     "$bat_status" \
     "⏻  Power Menu" \
-    | rofi -dmenu -p "  Control Center" -i -no-custom \
-           -theme-str 'window { width: 420px; } listview { lines: 12; }')
+    | dmenu_styled -l 12 -p "  Control Center")
 
 # ── Handle selection ──
 case "$chosen" in
@@ -132,8 +132,7 @@ case "$chosen" in
         ;;
     *"Power Menu"*)
         power=$(printf "  Lock\n  Logout\n  Reboot\n⏻  Shutdown" \
-            | rofi -dmenu -p "⏻ Power" -i -no-custom \
-                   -theme-str 'window { width: 250px; } listview { lines: 4; }')
+            | dmenu_styled -l 4 -p "⏻ Power")
         case "$power" in
             *"Lock"*)     slock & ;;
             *"Logout"*)   touch "/tmp/dwm-logout-$USER" && killall dwm ;;
