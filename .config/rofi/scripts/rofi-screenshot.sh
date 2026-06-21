@@ -1,14 +1,14 @@
 #!/bin/sh
-# ── dmenu-screenshot: Screenshot menu ──
+# ── rofi-screenshot: Screenshot menu ──
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-. "$SCRIPT_DIR/dmenu-common.sh"
+. "$SCRIPT_DIR/rofi-common.sh"
 
 SCREENSHOT_DIR="$HOME/Pictures/Screenshots"
 mkdir -p "$SCREENSHOT_DIR"
 FILENAME="$SCREENSHOT_DIR/screenshot_$(date +%Y%m%d_%H%M%S).png"
 
-choice=$(printf "  Fullscreen\n  Select Area\n  Fullscreen → Clipboard\n  Area → Clipboard\n  Flameshot GUI" | dmenu_styled -p "  Screenshot")
+choice=$(printf "  Fullscreen\n  Select Area\n  Fullscreen → Clipboard\n  Area → Clipboard\n  Flameshot GUI" | rofi_styled -p "  Screenshot")
 
 case "$choice" in
     *"Fullscreen")

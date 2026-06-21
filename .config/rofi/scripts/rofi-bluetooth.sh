@@ -1,8 +1,8 @@
 #!/bin/sh
-# ── dmenu-bluetooth: Bluetooth device manager ──
+# ── rofi-bluetooth: Bluetooth device manager ──
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-. "$SCRIPT_DIR/dmenu-common.sh"
+. "$SCRIPT_DIR/rofi-common.sh"
 
 # Check if bluetooth is powered on
 BT_POWER=$(bluetoothctl show 2>/dev/null | grep "Powered:" | awk '{print $2}')
@@ -34,9 +34,9 @@ if [ "$BT_POWER" = "yes" ]; then
     MENU="$MENU\n$SCAN"
     [ -n "$AVAILABLE" ] && MENU="$MENU\n$AVAILABLE"
 
-    choice=$(printf "%b" "$MENU" | dmenu_styled -p "  BT")
+    choice=$(printf "%b" "$MENU" | rofi_styled -p "  BT")
 else
-    choice=$(printf "%s\n%s" "$TOGGLE" "$SCAN" | dmenu_styled -p "  BT")
+    choice=$(printf "%s\n%s" "$TOGGLE" "$SCAN" | rofi_styled -p "  BT")
 fi
 
 case "$choice" in
@@ -55,7 +55,7 @@ case "$choice" in
     *"[connected]"*)
         DEVNAME=$(echo "$choice" | sed 's/^[^ ]* //' | sed 's/ \[connected\]//')
         MAC=$(bluetoothctl devices 2>/dev/null | grep "$DEVNAME" | awk '{print $2}')
-        action=$(printf "Disconnect\nRemove" | dmenu_styled -p "  $DEVNAME")
+        action=$(printf "Disconnect\nRemove" | rofi_styled -p "  $DEVNAME")
         case "$action" in
             Disconnect) bluetoothctl disconnect "$MAC" && notify "  BT" "Disconnected $DEVNAME" ;;
             Remove) bluetoothctl remove "$MAC" && notify "  BT" "Removed $DEVNAME" ;;

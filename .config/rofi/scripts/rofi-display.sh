@@ -1,8 +1,8 @@
 #!/bin/sh
-# ── dmenu-display: Display/monitor management ──
+# ── rofi-display: Display/monitor management ──
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-. "$SCRIPT_DIR/dmenu-common.sh"
+. "$SCRIPT_DIR/rofi-common.sh"
 
 # Get connected monitors
 MONITORS=$(xrandr --query | grep " connected" | awk '{print $1}')
@@ -17,11 +17,11 @@ else
     BRIGHTNESS_PCT="N/A"
 fi
 
-choice=$(printf "  Brightness: %s%%\n  Night Mode (warm)\n  Night Mode (off)\n  Mirror Displays\n  Extend Right\n  Extend Left\n  Single Monitor" "$BRIGHTNESS_PCT" | dmenu_styled -p "  Display")
+choice=$(printf "  Brightness: %s%%\n  Night Mode (warm)\n  Night Mode (off)\n  Mirror Displays\n  Extend Right\n  Extend Left\n  Single Monitor" "$BRIGHTNESS_PCT" | rofi_styled -p "  Display")
 
 case "$choice" in
     *"Brightness"*)
-        LEVEL=$(printf "10\n20\n30\n40\n50\n60\n70\n80\n90\n100" | dmenu_styled -p "  Brightness %")
+        LEVEL=$(printf "10\n20\n30\n40\n50\n60\n70\n80\n90\n100" | rofi_styled -p "  Brightness %")
         [ -z "$LEVEL" ] && exit 0
         brightnessctl s "${LEVEL}%"
         notify "  Display" "Brightness set to ${LEVEL}%" ;;

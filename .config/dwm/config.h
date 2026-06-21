@@ -65,15 +65,14 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-i", "-c", "-l", "8", "-h", "38", "-bw", "3", "-m", dmenumon, "-fn", dmenufont, "-nb", col_bg, "-nf", col_fg, "-sb", col_sel, "-sf", col_bg, "-nhf", "#E6C384", "-nhb", col_bg, "-shf", "#E6C384", "-shb", col_sel, NULL };
+static const char *roficmd[]   = { "rofi", "-show", "drun", NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *dmenulauncher[] = { "/home/rubyciide/.config/dmenu/scripts/dmenu-launcher.sh", NULL };
+static const char *rofilauncher[] = { "/home/rubyciide/.config/rofi/scripts/rofi-launcher.sh", NULL };
 static const char *flameshot[] = { "flameshot", "gui", NULL };
-static const char *dmenuwifi[]  = { "/home/rubyciide/.config/dmenu/scripts/dmenu-wifi.sh", NULL };
+static const char *rofiwifi[]  = { "/home/rubyciide/.config/rofi/scripts/rofi-wifi.sh", NULL };
 static const char *volmgr[]  = { "pavucontrol", NULL };
 static const char *keybinds[] = { "/home/rubyciide/.config/dwm/scripts/keybinds.sh", NULL };
-static const char *dmenupower[] = { "/home/rubyciide/.config/dmenu/scripts/dmenu-power.sh", NULL };
+static const char *rofipower[] = { "/home/rubyciide/.config/rofi/scripts/rofi-power.sh", NULL };
 static const char *filemgr[]  = { "kitty", "-e", "yazi", NULL };
 static const char *browser[]  = { "chromium", NULL };
 static const char *ctrlcenter[] = { "/home/rubyciide/.config/dwm/scripts/control-center.sh", NULL };
@@ -84,13 +83,13 @@ static const Key keys[] = {
 	/* modifier                     key        function        argument */
 
 	/* ── Launchers ── */
-	{ MODKEY,                       XK_a,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = dmenulauncher } },
-	{ MODKEY,                       XK_n,      spawn,          {.v = dmenuwifi } },
+	{ MODKEY,                       XK_a,      spawn,          {.v = roficmd } },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = rofilauncher } },
+	{ MODKEY,                       XK_n,      spawn,          {.v = rofiwifi } },
 	{ MODKEY,                       XK_v,      spawn,          {.v = volmgr } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_slash,  spawn,          {.v = keybinds } },
-	{ MODKEY,                       XK_BackSpace, spawn,       {.v = dmenupower } },
+	{ MODKEY,                       XK_BackSpace, spawn,       {.v = rofipower } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = ctrlcenter } },
 
 	/* ── Apps ── */

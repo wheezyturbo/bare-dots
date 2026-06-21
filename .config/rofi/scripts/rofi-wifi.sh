@@ -1,8 +1,8 @@
 #!/bin/sh
-# ── dmenu-wifi: WiFi network selector ──
+# ── rofi-wifi: WiFi network selector ──
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-. "$SCRIPT_DIR/dmenu-common.sh"
+. "$SCRIPT_DIR/rofi-common.sh"
 
 # Check WiFi status
 WIFI_STATE=$(nmcli radio wifi)
@@ -28,9 +28,9 @@ if [ "$WIFI_STATE" = "enabled" ]; then
             printf "%s %s %s %s%s\n", lock, $1, bar, $2"%", marker
         }')
 
-    choice=$(printf "%s\n%s\n%s\n%s" "$TOGGLE" "$RESCAN" "  Disconnect" "$NETWORKS" | dmenu_styled -p "  WiFi")
+    choice=$(printf "%s\n%s\n%s\n%s" "$TOGGLE" "$RESCAN" "  Disconnect" "$NETWORKS" | rofi_styled -p "  WiFi")
 else
-    choice=$(printf "%s" "$TOGGLE" | dmenu_styled -p "  WiFi")
+    choice=$(printf "%s" "$TOGGLE" | rofi_styled -p "  WiFi")
 fi
 
 case "$choice" in
@@ -61,7 +61,7 @@ case "$choice" in
                 notify "  WiFi" "Failed to connect to $SSID"
         else
             # Need password
-            PASS=$(echo "" | dmenu_styled -p "  Password for $SSID")
+            PASS=$(echo "" | rofi_styled -p "  Password for $SSID")
             [ -z "$PASS" ] && exit 0
             nmcli device wifi connect "$SSID" password "$PASS" 2>/dev/null && \
                 notify "  WiFi" "Connected to $SSID" || \

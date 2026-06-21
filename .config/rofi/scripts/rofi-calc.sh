@@ -1,17 +1,17 @@
 #!/bin/sh
-# ── dmenu-calc: Calculator ──
+# ── rofi-calc: Calculator ──
 # Type math expressions, get results. Results are copied to clipboard.
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-. "$SCRIPT_DIR/dmenu-common.sh"
+. "$SCRIPT_DIR/rofi-common.sh"
 
 RESULT=""
 
 while true; do
     if [ -n "$RESULT" ]; then
-        EXPR=$(echo "" | dmenu_styled -p "  = $RESULT │ ")
+        EXPR=$(echo "" | rofi_styled -p "  = $RESULT │ ")
     else
-        EXPR=$(echo "" | dmenu_styled -p "  Calc")
+        EXPR=$(echo "" | rofi_styled -p "  Calc")
     fi
 
     [ -z "$EXPR" ] && break

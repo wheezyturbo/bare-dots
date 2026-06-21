@@ -1,8 +1,8 @@
 #!/bin/sh
-# ── dmenu-configs: Quick config file editor ──
+# ── rofi-configs: Quick config file editor ──
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-. "$SCRIPT_DIR/dmenu-common.sh"
+. "$SCRIPT_DIR/rofi-common.sh"
 
 # Define config files with nice labels
 CONFIGS="  DWM config           | $HOME/.config/dwm/config.def.h
@@ -17,7 +17,7 @@ CONFIGS="  DWM config           | $HOME/.config/dwm/config.def.h
   dunst                 | $HOME/.config/dunst/dunstrc
   Yazi                  | $HOME/.config/yazi/yazi.toml"
 
-choice=$(echo "$CONFIGS" | dmenu_styled -p "  Edit Config")
+choice=$(echo "$CONFIGS" | rofi_styled -p "  Edit Config")
 [ -z "$choice" ] && exit 0
 
 FILE=$(echo "$choice" | awk -F'|' '{print $2}' | xargs)

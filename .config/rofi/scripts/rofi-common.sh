@@ -17,17 +17,13 @@ HEIGHT=40
 LINES=10
 TERMINAL="kitty"
 
-# Standard dmenu invocation with full rice
-dmenu_styled() {
-    dmenu -i -c -l "$LINES" -h "$HEIGHT" -bw "$BORDER" \
-        -fn "$FONT" \
-        -nb "$BG" -nf "$FG" -sb "$SB" -sf "$SF" \
-        -nhf "$NHF" -nhb "$NHB" -shf "$SHF" -shb "$SHB" \
-        "$@"
+# Standard rofi -dmenu invocation (inherits your global Kanagawa rofi theme)
+rofi_styled() {
+    rofi -dmenu -i "$@"
 }
 
 # Notification helper
 notify() {
-    dunstify -a "dmenu" -u normal -t 3000 "$@" 2>/dev/null || \
+    dunstify -a "rofi" -u normal -t 3000 "$@" 2>/dev/null || \
     notify-send "$@" 2>/dev/null
 }

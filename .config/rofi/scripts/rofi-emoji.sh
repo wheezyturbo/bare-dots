@@ -1,9 +1,9 @@
 #!/bin/sh
-# ── dmenu-emoji: Emoji picker ──
+# ── rofi-emoji: Emoji picker ──
 # Copies selected emoji to clipboard
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-. "$SCRIPT_DIR/dmenu-common.sh"
+. "$SCRIPT_DIR/rofi-common.sh"
 
 EMOJI_FILE="$SCRIPT_DIR/emoji-list.txt"
 
@@ -95,7 +95,7 @@ if [ ! -f "$EMOJI_FILE" ]; then
 EMOJIS
 fi
 
-SELECTED=$(cat "$EMOJI_FILE" | dmenu_styled -p "  Emoji" -l 15)
+SELECTED=$(cat "$EMOJI_FILE" | rofi_styled -p "  Emoji" -l 15)
 [ -z "$SELECTED" ] && exit 0
 
 # Extract just the emoji (first character/grapheme)
