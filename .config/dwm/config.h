@@ -37,6 +37,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Nm-applet",NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -73,7 +74,7 @@ static const char *rofiwifi[]  = { "/home/rubyciide/.config/rofi/scripts/rofi-wi
 static const char *volmgr[]  = { "pavucontrol", NULL };
 static const char *keybinds[] = { "/home/rubyciide/.config/dwm/scripts/keybinds.sh", NULL };
 static const char *rofipower[] = { "/home/rubyciide/.config/rofi/scripts/rofi-power.sh", NULL };
-static const char *filemgr[]  = { "kitty", "-e", "yazi", NULL };
+static const char *filemgr[]  = { "st", "-e", "yazi", NULL };
 static const char *browser[]  = { "chromium", NULL };
 static const char *ctrlcenter[] = { "/home/rubyciide/.config/dwm/scripts/control-center.sh", NULL };
 
