@@ -75,7 +75,7 @@ static const char *volmgr[]  = { "pavucontrol", NULL };
 static const char *keybinds[] = { "/home/rubyciide/.config/dwm/scripts/keybinds.sh", NULL };
 static const char *rofipower[] = { "/home/rubyciide/.config/rofi/scripts/rofi-power.sh", NULL };
 static const char *filemgr[]  = { "st", "-e", "yazi", NULL };
-static const char *browser[]  = { "chromium", NULL };
+static const char *browser[]  = { "firefox", NULL };
 static const char *ctrlcenter[] = { "/home/rubyciide/.config/dwm/scripts/control-center.sh", NULL };
 
 #include <X11/XF86keysym.h>
